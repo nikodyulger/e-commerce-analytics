@@ -1,0 +1,71 @@
+{{> navBar this}}
+{{> header this}}
+{{> messages this}}
+<script>
+  function signin_clicked(event) {
+    event.preventDefault();
+    var form = document.getElementById('signin-form');
+    form.classList.add('was-validated');
+    if (form.checkValidity()) {
+      Model.signin($('#email').val(), $('#password').val())
+        .done(function (user) {
+          //Model.user = user; //Check this
+          //console.log("siging", Model.user) --}}
+          Messages.success.push(`Welcome ${user.name } ${user.surname}`)
+          navigateTo('/', event);
+        })
+        .fail(function (error) {
+          console.error('signin error',
+            error.status,
+            error.statusText,
+            error.responseJSON.message);
+          Messages.danger.push(`${error.responseJSON.message}`);
+          navigateTo('/signin',event);
+        })
+    } else {
+      console.log("invalid")
+    }
+  }
+</script>
+<main>
+  <div class="container align-start-center">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">
+              Sign In
+            </h5>
+            <form id="signin-form" class="form-signin needs-validation" novalidate>
+              <div class="form-label-group mx-2 my-3">
+                <label for="inputEmail">
+                  Email address
+                </label>
+                <input type="email" id="email" class="form-control" placeholder="Email address" required=""
+                  autofocus="" />
+                <div class="invalid-feedback">The email field cannot be empty</div>
+              </div>
+              <div class="form-label-group mx-2 my-3">
+                <label for="inputPassword">
+                  Password
+                </label>
+                <input type="password" id="password" class="form-control" placeholder="Password" required="" />
+                <div class="invalid-feedback">The password cannot be empty</div>
+              </div>
+              <!-- <div class="custom-control custom-checkbox mx-2 my-2 mb-3">
+                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                            <label class="custom-control-label" for="customCheck1">Remember password</label>
+                          </div> -->
+              <button class="btn btn-lg btn-primary btn-block text-camelcase" onclick="signin_clicked(event)">
+                Sign in
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<br />
+<br />
+{{> footer this}}

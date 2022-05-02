@@ -1,0 +1,40 @@
+# serverless.yml
+
+service: my-express-application
+
+custom:
+  tableName: 'eCommerceDB'
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: us-east-1
+  iam:
+    role: arn:aws:iam::912826336953:role/LabRole
+
+functions:
+  app:
+    handler: app.handler
+    events:
+      - http: ANY /
+      - http: "ANY {proxy+}"
+    environment:
+      ECOMMERCE_DB: ${self:custom.tableName}
+
+resources:
+  Resources:
+    eCommerceDB:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: type
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: type
+            KeyType: RANGE
+        TableName: ${self:custom.tableName}

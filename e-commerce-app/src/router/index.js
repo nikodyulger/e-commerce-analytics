@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignUp from '../views/SignUp.vue'
 import SignIn from '../views/SignIn.vue'
+import Profile from '../views/Profile.vue'
+import Cart from '../views/Cart.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +32,21 @@ const routes = [
     path: '/signin',
     name: 'SignIn',
     component: SignIn
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: NotFound
   }
 
 ]

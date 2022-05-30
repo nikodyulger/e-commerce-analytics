@@ -1,0 +1,20 @@
+
+service: restapi
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  role: ${env:AWS_ROLE}
+  region: us-east-1
+
+functions:
+  restapi:
+    handler: restAPI.handler
+    events:
+      - http: 
+          path: /{proxy+} 
+          method: any
+    environment:
+      TABLE_NAME: ${env:TABLE_NAME}

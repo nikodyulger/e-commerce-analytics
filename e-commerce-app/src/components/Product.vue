@@ -1,7 +1,7 @@
 <template>
   <div class="card border-light mb-3">
     <div class="card-header border-light"></div>
-    <b-img class="card-img-top" src="../assets/birdcage.jpg" :alt="product.url" />
+    <img class="card-img-top" :src="product.url" :alt="product.url" />
     <div class="card-body">
       <h4 class="card-title">{{ product.title }}</h4>
       <p class="card-text">{{ product.description }}</p>
@@ -12,7 +12,7 @@
         <span>
           <h4>{{ product.price }}</h4>
         </span>
-        <button class="btn btn-primary" onclick="">
+        <button class="btn btn-primary" :disabled="!isLogged" onclick="">
           <b-icon icon="cart-plus-fill"></b-icon>&nbsp;Buy
         </button>
       </div>
@@ -21,10 +21,24 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useUserStore } from '../store/user';
+
 export default {
-    name: "Product",
-    props: {
-        product: Object
-    }
+  name: "Product",
+  props: ["product"],
+  computed: {
+    ...mapState(useUserStore, ['isLogged'])
+  },
+  filters: {
+    currency(curr) {
+      const formatter = new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "EUR",
+      });
+      if (isNaN(curr)) return "-";
+      return formatter.format(curr);
+    },
+  },
 };
 </script>

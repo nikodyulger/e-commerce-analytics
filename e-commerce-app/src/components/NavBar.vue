@@ -15,20 +15,28 @@
             <template #button-content>
               <b-icon icon="person-circle"></b-icon> User
             </template>
-            <b-dropdown-item href="/signup">Sign Up</b-dropdown-item>
-            <b-dropdown-item href="/signin">Sign In</b-dropdown-item>
-            <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-            <b-dropdown-item >Sign Out</b-dropdown-item>
+            <b-dropdown-item href="/signup" v-if="!isLogged">Sign Up</b-dropdown-item>
+            <b-dropdown-item href="/signin" v-if="!isLogged">Sign In</b-dropdown-item>
+            <b-dropdown-item href="/profile" v-if="isLogged">Profile</b-dropdown-item>
+            <b-dropdown-item  v-if="isLogged">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
+            {{user}}
+            {{isLogged}}
   </div>
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useUserStore } from '../store/user';
+
 export default {
   name: "NavBar",
+  computed: {
+    ...mapState(useUserStore, ['isLogged', 'user'])
+  }
 };
 </script>
 

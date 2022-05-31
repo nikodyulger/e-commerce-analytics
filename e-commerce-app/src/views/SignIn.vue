@@ -53,11 +53,12 @@
         </div>
       </div>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import NavBar from "../components/NavBar.vue";
+import { NavBar, Footer } from "@/components/";
 var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
 export default {
@@ -72,7 +73,8 @@ export default {
     };
   },
   components: {
-    NavBar
+    NavBar,
+    Footer
   },
   methods: {
     onSubmit(event) {

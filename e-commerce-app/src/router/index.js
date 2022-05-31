@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignUp from '../views/SignUp.vue'
 import SignIn from '../views/SignIn.vue'
+import UserConfirmation from '../views/UserConfirmation.vue'
 import Profile from '../views/Profile.vue'
 import Cart from '../views/Cart.vue'
 import NotFound from '../views/NotFound.vue'
@@ -32,6 +33,12 @@ const routes = [
     path: '/signin',
     name: 'SignIn',
     component: SignIn
+  },
+  {
+    path: '/confirmation',
+    name: 'Confirmation',
+    component: UserConfirmation,
+    props: true
   },
   {
     path: '/profile',

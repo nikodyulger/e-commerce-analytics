@@ -1,12 +1,20 @@
 const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const express = require("express");
+var cors = require('cors');
 const app = express();
 const AWS = require("aws-sdk");
 
 const TABLE_NAME = process.env.TABLE_NAME;
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
+var carsOption = {
+    origin: '*',
+    allowedHeaders: ['Content-type', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials'],
+    methods: ['GET', 'POST']
+}
+
+app.use(cors(carsOption))
 app.use(bodyParser.json({ strict: false }));
 
 app.get("/", function (req, res) {
@@ -15,37 +23,17 @@ app.get("/", function (req, res) {
 
 // Get User endpoint
 app.get("/products", function (req, res) {
-    // const params = {
-    //     TableName: TABLE_NAME,
-    //     KeyConditionExpression: 'begins_with(#id, :id_item)',
-    //     ExpressionAttributeNames:{
-    //         "#id": "id",},
-    //     ExpressionAttributeValues: {
-    //         ":id_item": "item_",}
-    // };
     const params = {
         ExpressionAttributeValues: {
-          ':s': 'product'
+            ':s': 'product'
         },
         ExpressionAttributeNames: {
             "#typeData": "typeData"
         },
         KeyConditionExpression: '#typeData = :s',
         TableName: TABLE_NAME
-      };
-    // dynamoDb.scan(params, (error, result) => {
-    //     if (error) {
-    //         console.log(error);
-    //         res.status(400).json({ error: 'Could not get products' });
-    //     }
-    //     else if (result) {
-    //         console.log(result)
-    //         // const {userId, name} = result.Item;
-    //         res.json({result});
-    //     } else { // No devuelte nada
-    //         res.status(404).json({ error: "Products not found" });
-    //     }
-    // });
+    };
+
     dynamoDb.query(params, function(error, result) {
         if (error) {
             console.log("Error", error);
@@ -57,7 +45,7 @@ app.get("/products", function (req, res) {
         } else {
             res.status(404).json({ error: "Products not found" });
         }
-      });
+    });
 });
 
 module.exports.handler = serverless(app);

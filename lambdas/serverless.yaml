@@ -16,5 +16,6 @@ functions:
       - http: 
           path: /{proxy+} 
           method: any
+          cors: true
     environment:
       TABLE_NAME: ${env:TABLE_NAME}

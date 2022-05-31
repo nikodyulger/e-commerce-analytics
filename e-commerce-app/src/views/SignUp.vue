@@ -17,11 +17,78 @@
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"
-                        ><b-icon icon="person-circle"></b-icon
+                        ><b-icon icon="person-badge"></b-icon
                       ></span>
                     </div>
                     <input
                       id="name"
+                      v-model="userAttributes.Name"
+                      type="text"
+                      class="form-control"
+                      placeholder="Name"
+                      aria-label="Name"
+                      aria-describedby="basic-addon1"
+                      required
+                      autofocus
+                    />
+                    <div class="invalid-feedback">
+                      The name field cannot be empty
+                    </div>
+                  </div>
+                </div>
+                <div class="form-label-group mx-2 my-3">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><b-icon icon="calendar"></b-icon
+                      ></span>
+                    </div>
+                    <input
+                      id="birth"
+                      v-model="userAttributes.BirthDate"
+                      type="date"
+                      class="form-control"
+                      placeholder="BirthDate"
+                      aria-label="BirthDate"
+                      aria-describedby="basic-addon1"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      The birth date field cannot be empty
+                    </div>
+                  </div>
+                </div>
+                <div class="form-label-group mx-2 my-3">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><b-icon icon="geo-alt-fill"></b-icon
+                      ></span>
+                    </div>
+                    <input
+                      id="address"
+                      v-model="userAttributes.Address"
+                      type="text"
+                      class="form-control"
+                      placeholder="Address"
+                      aria-label="Address"
+                      aria-describedby="basic-addon1"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      The address field cannot be empty
+                    </div>
+                  </div>
+                </div>
+                <div class="form-label-group mx-2 my-3">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><b-icon icon="person-circle"></b-icon
+                      ></span>
+                    </div>
+                    <input
+                      id="username"
                       v-model="authenticationData.Username"
                       type="text"
                       class="form-control"
@@ -114,11 +181,12 @@
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
-import NavBar from "../components/NavBar.vue";
+import { NavBar, Footer } from "@/components";
 var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
 export default {
@@ -132,14 +200,22 @@ export default {
         Password: "",
         PasswordConfirm: "",
       },
+      userAttributes: {
+        Name: "",
+        BirthDate: "",
+        Address: "",
+      },
     };
   },
   components: {
     NavBar,
+    Footer,
   },
   methods: {
     onSubmit(event) {
+      var navigate = this.$router;
       event.preventDefault();
+      console.log(this.userAttributes);
       if (
         this.authenticationData.Password !==
         this.authenticationData.PasswordConfirm
@@ -148,24 +224,36 @@ export default {
       } else {
         var poolData = {
           UserPoolId: process.env.VUE_APP_USER_POOL_ID, // Your user pool id here
-          ClientId: process.env.VUE_APP_CLIENT_ID, 
+          ClientId: process.env.VUE_APP_CLIENT_ID,
         };
 
         var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-
-        var attributeList = [];
 
         var dataEmail = {
           Name: "email",
           Value: this.authenticationData.Email,
         };
+        var attributeList = [
+          {
+            Name: "name",
+            Value: this.userAttributes.Name,
+          },
+          {
+            Name: "birthdate",
+            Value: this.userAttributes.BirthDate,
+          },
+          {
+            Name: "address",
+            Value: this.userAttributes.Address,
+          },
+        ];
 
         var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
           dataEmail
         );
 
         attributeList.push(attributeEmail);
-        
+
         userPool.signUp(
           this.authenticationData.Username,
           this.authenticationData.Password,
@@ -177,10 +265,27 @@ export default {
               return;
             }
             var cognitoUser = result.user;
+            console.log("result,", result);
             console.log("user name is " + cognitoUser.getUsername());
+            if (result.user) {
+              navigate.push({
+                name: "Confirmation",
+                params: {
+                  username: cognitoUser.getUsername(),
+                },
+              });
+            }
           }
         );
       }
+    },
+    goToConfirmation() {
+      this.$route.push({
+        name: "Confirmation",
+        params: {
+          username: this.authenticationData.Username,
+        },
+      });
     },
   },
 };

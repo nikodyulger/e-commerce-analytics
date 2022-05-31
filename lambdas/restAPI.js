@@ -48,4 +48,32 @@ app.get("/products", function (req, res) {
     });
 });
 
+app.get("/user", function (req, res) {
+    const params = {
+        ExpressionAttributeValues: {
+            ':s': 'user',
+            ':d': req.query.id
+        },
+        ExpressionAttributeNames: {
+            "#typeData": "typeData",
+            "#id": "id"
+        },
+        KeyConditionExpression: '#typeData = :s and #id = :d',
+        TableName: TABLE_NAME
+    };
+
+    dynamoDb.query(params, function(error, result) {
+        if (error) {
+            console.log("Error", error);
+            res.status(400).json({ error: error });
+        }
+        else if (result) {
+            console.log(result)
+            res.json({result});
+        } else {
+            res.status(404).json({ error: "Products not found" });
+        }
+    });
+});
+
 module.exports.handler = serverless(app);

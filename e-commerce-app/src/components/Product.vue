@@ -10,9 +10,9 @@
     <div class="card-footer bg-white text-right">
       <div class="d-flex justify-content-between align-items-stretch">
         <span>
-          <h4>{{ product.price }}</h4>
+          <h4>{{ product.price | currency}}</h4>
         </span>
-        <button class="btn btn-primary" :disabled="!isLogged" onclick="">
+        <button class="btn btn-primary" :disabled="!isLogged" @click="addProductToCart(product)">
           <b-icon icon="cart-plus-fill"></b-icon>&nbsp;Buy
         </button>
       </div>
@@ -21,24 +21,24 @@
 </template>
 
 <script>
-import { mapState } from 'pinia';
+import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '../store/user';
+import { useCatalogStore } from '../store/catalog';
 
 export default {
   name: "Product",
   props: ["product"],
+  setup(){
+    const catalog = useCatalogStore();
+    return {
+      catalog
+    }
+  },
   computed: {
-    ...mapState(useUserStore, ['isLogged'])
+    ...mapState(useUserStore, ['isLogged']),
   },
-  filters: {
-    currency(curr) {
-      const formatter = new Intl.NumberFormat("es-ES", {
-        style: "currency",
-        currency: "EUR",
-      });
-      if (isNaN(curr)) return "-";
-      return formatter.format(curr);
-    },
-  },
+  methods: {
+    ...mapActions(useCatalogStore, ['addProductToCart'])
+  }
 };
 </script>

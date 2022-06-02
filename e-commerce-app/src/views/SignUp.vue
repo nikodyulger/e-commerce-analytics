@@ -223,7 +223,7 @@ export default {
         alert("Passwords do not match! Try again!");
       } else {
         var poolData = {
-          UserPoolId: process.env.VUE_APP_USER_POOL_ID, // Your user pool id here
+          UserPoolId: process.env.VUE_APP_USER_POOL_ID, 
           ClientId: process.env.VUE_APP_CLIENT_ID,
         };
 

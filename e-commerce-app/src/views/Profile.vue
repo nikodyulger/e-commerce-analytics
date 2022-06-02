@@ -1,131 +1,44 @@
 <template>
   <div>
     <NavBar />
-    <br/>
+    <br />
     <div class="container">
       <div class="col-xl-12 col-lg-10 col-md-10 col-12">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h2 class="card-title text-left mt-2 mb-4">Profile</h2>
-            <hr />
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Name</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <!-- {{ this.user.name }} -->
-              </div>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Surname</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <!-- {{ this.user.surname }} -->
-              </div>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Birth</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <!-- {{formatDate this.user.birth}} -->
-              </div>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Address</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <!-- {{ this.user.address }} -->
-              </div>
-            </div>
-            <hr />
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">E-mail</h6>
-              </div>
-              <div class="col-sm-9 text-secondary">
-                <!-- {{ this.user.email }} -->
-              </div>
-            </div>
-          </div>
-        </div>
+        <ProfileInfo />
       </div>
     </div>
     <br />
     <div class="container">
       <div class="col-xl-12 col-lg-10 col-md-10 col-12">
-        <!-- {{#unless this.user.orders.length}} -->
-        <div class="card mb-3">
-          <div class="card-body">
-            <h2 class="card-title text-left mt-2 mb-4">Order List</h2>
-            <div class="alert alert-warning" role="alert">
-              <i class="fas fa-exclamation-circle"></i>&nbsp;
-              <span>No orders yet!</span>
-            </div>
-          </div>
-        </div>
-        <!-- {{else}} -->
-        <div class="card mb-3">
-          <div class="card-body">
-            <h2 class="card-title text-left mt-2 mb-4">Order List</h2>
-            <div class="table-responsive">
-              <table class="table table-hover">
-                <thead class="thead-light">
-                  <tr>
-                    <th
-                      scope="col"
-                      data-type="date"
-                      data-format-string="Do MMMM YYYY"
-                    >
-                      Date
-                    </th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Total</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- {{#each this.user.orders}} -->
-                  <tr>
-                    <th class="align-middle">
-                      <!-- {{formatDate this.date}} -->
-                    </th>
-                    <td class="align-middle">
-                      <!-- {{formatOrderNumber this.number}} -->
-                    </td>
-                    <td class="align-middle">
-                      <!-- {{formatPrice this.total}} -->
-                    </td>
-                    <td class="align-middle">
-                      <button type="button" class="btn btn-primary">
-                        Details
-                      </button>
-                    </td>
-                  </tr>
-                  <!-- {{/each}} -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <!-- {{/unless}} -->
+        <AlertOrder v-if="user.orders.length === 0" />
+        <OrderList v-else />
       </div>
     </div>
     <Footer />
   </div>
 </template>
 <script>
-import { NavBar, Footer } from "@/components";
+import {
+  NavBar,
+  Footer,
+  ProfileInfo,
+  AlertOrder,
+  OrderList,
+} from "@/components";
+import { mapState } from "pinia";
+import { useUserStore } from "../store/user";
+
 export default {
   name: "Profile",
   components: {
     NavBar,
     Footer,
+    ProfileInfo,
+    AlertOrder,
+    OrderList,
+  },
+  computed: {
+    ...mapState(useUserStore, ["user"]),
   },
 };
 </script>

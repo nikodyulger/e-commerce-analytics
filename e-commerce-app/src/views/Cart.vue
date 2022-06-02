@@ -1,149 +1,46 @@
 <template>
-<div>
-    <NavBar/>
-    <br/>
+  <div>
+    <NavBar />
+    <br />
     <div class="container-fluid p-4">
-        <div class="row">
-            <div class="col-md-9">
-                <!-- {{#unless this.user.shoppingCart.items.length }} -->
-                <div class="alert alert-danger" role="alert">
-                    <div class="d-flex flex-row text-center no-gutters">
-                        <i class="fas fa-exclamation-triangle fa-5x"></i>
-                        <div class="d-flex">
-                            <div class="py-2 px-4 text-left">
-                                <p class="mb-2 font-weight-bold">Your shopping cart is empty</p>
-                                <div class="h5 font-weight-light">No product items in the basket yet</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- {{else}} -->
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h2 class="card-title text-left mt-2 mb-4">Products</h2>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">Product</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Qty</th>
-                                        <th scope="col">Unit Cost</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- {{#each this.user.shoppingCart.items}} -->
-                                    <tr>
-                                        <th class="align-middle">
-                                            <!-- {{this.title}} -->
-                                            </th>
-                                        <td class="align-middle">
-                                            <!-- {{this.description}} -->
-                                            </td>
-                                        <td class="align-middle">
-                                            <!-- {{this.qty}} -->
-                                            </td>
-                                        <td class="align-middle">
-                                            <!-- {{formatPrice this.unit_cost}} -->
-                                            </td>
-                                        <td class="align-middle">
-                                            <!-- {{formatPrice this.total}} -->
-                                            </td>
-                                        <td class="align-middle">
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-danger dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    Remove
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <button class="dropdown-item"
-                                                        >One</button>
-                                                    <button class="dropdown-item"
-                                                        >All</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- {{/each}} -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-light p-2">
-                        <div class="d-flex flex-row-reverse text-dark">
-                            <div class="py-2 px-4 text-right">
-                                <p class="mb-2 font-weight-bold">Total amount</p>
-                                <div class="h5 font-weight-light">
-                                    <!-- {{formatPrice this.user.shoppingCart.total}} -->
-                                    </div>
-                            </div>
-
-                            <div class="py-2  px-4 text-right">
-                                <p class="mb-2 font-weight-bold">Tax</p>
-                                <div class="h5 font-weight-light">
-                                    <!-- {{formatTax this.user.shoppingCart.tax}} -->
-                                    </div>
-                            </div>
-
-                            <div class="py-2  px-4 text-right">
-                                <p class="mb-2 font-weight-bold">Subtotal</p>
-                                <div class="h5 font-weight-light">
-                                    <!-- {{formatPrice this.user.shoppingCart.subtotal}} -->
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- {{/unless}} -->
-            </div>
-            <!-- {{#if this.user.shoppingCart.items.length}} -->
-            <div class="col-md-3">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <h5>Cart Summary</h5>
-                        </div>
-                        <span>
-                            Total
-                        </span>
-                        <h2 class="font-bold">
-                            <!-- {{formatPrice this.user.shoppingCart.total}} -->
-                        </h2>
-
-                        <hr>
-                        <span class="text-muted small">
-                            *Taxes do not include shipping costs
-                        </span>
-                    </div>
-                    <div class="container mb-3 mx-2">
-                        <div class="row">
-                            <a role="button" class="btn btn-primary col-7"><i
-                                    class="fa fa-shopping-cart"></i>&nbsp;Purchase</a>
-                            <a role="button" class="btn btn-danger col-4" href="/"
-                                >Cancel</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- {{/if}} -->
+      <div class="row">
+        <div class="col-md-9">
+          <AlertCart v-if="cart.length === 0" />
+          <CartTable v-else />
         </div>
+        <div class="col-md-3">
+          <CartSummary v-if="cart.length !== 0" />
+        </div>
+      </div>
+      <br />
+      <br />
     </div>
-    <br/>
-    <br/>
-    <Footer/>
-</div>
+    <Footer />
+  </div>
 </template>
 
 <script>
-import { NavBar, Footer } from '@/components'
+import {
+  NavBar,
+  Footer,
+  AlertCart,
+  CartSummary,
+  CartTable,
+} from "@/components";
+import { mapState } from "pinia";
+import { useCatalogStore } from "../store/catalog";
+
 export default {
-    name: "Cart",
-    components:{
-        NavBar,
-        Footer
-    }
-}
+  name: "Cart",
+  components: {
+    NavBar,
+    Footer,
+    AlertCart,
+    CartSummary,
+    CartTable,
+  },
+  computed: {
+    ...mapState(useCatalogStore, ["cart"]),
+  },
+};
 </script>

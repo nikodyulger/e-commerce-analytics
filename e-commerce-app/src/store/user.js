@@ -1,20 +1,23 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 export const useUserStore = defineStore({
-    id: 'user',
-    state: () => {
-        return {
-            isLogged: false,
-            user: {}
-        }
+  id: "user",
+  state: () => {
+    return {
+      isLogged: true,
+      user: {},
+    };
+  },
+  actions: {
+    logUser(username) {
+      console.log("Antes confirm", this.user);
+      this.isLogged = true;
+      this.user["username"] = username; // llamada a la API
+      console.log("Despues confirm", this.user);
     },
-    actions: {
-        logUser(username){
-            console.log("Antes confirm",this.user);
-            this.isLogged = true;
-            this.user['username'] = username; // llamada a la API
-            console.log("Despues confirm",this.user);
-        }
-    }
-
-})
+    signOut() {
+      this.user = {};
+      this.isLogged = false;
+    },
+  },
+});

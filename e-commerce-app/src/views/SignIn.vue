@@ -59,6 +59,9 @@
 
 <script>
 import { NavBar, Footer } from "@/components/";
+import { useUserStore } from "../store/user";
+import { mapActions } from 'pinia';
+
 var AmazonCognitoIdentity = require("amazon-cognito-identity-js");
 
 export default {
@@ -77,6 +80,7 @@ export default {
     Footer
   },
   methods: {
+    ...mapActions(useUserStore,['signIn']),
     onSubmit(event) {
       event.preventDefault();
       var authenticationDetails =
@@ -99,16 +103,12 @@ export default {
       var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
 
       cognitoUser.authenticateUser(authenticationDetails, {
-        onSuccess: function (result) {
-          console.log(
-            "access token + " + result.getAccessToken().getJwtToken()
-          );
-          console.log("id token + " + result.getIdToken().getJwtToken());
-          console.log("refresh token + " + result.getRefreshToken().getToken());
-          console.log(result);
+        onSuccess: () =>  {
+          this.signIn(this.authenticationData.Username);
+          this.$router.push("/");
         },
 
-        onFailure: function (err) {
+        onFailure: (err) =>  {
           alert(err.message || JSON.stringify(err));
         },
       });

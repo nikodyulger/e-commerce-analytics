@@ -61,7 +61,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useUserStore, ["logUser"]),
+    ...mapActions(useUserStore, ["signIn"]),
     onSubmit(event) {
       event.preventDefault();
       var poolData = {
@@ -70,8 +70,9 @@ export default {
       };
 
       var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+      
       var userData = {
-        Username: this.username, // username from state after correct registration
+        Username: this.username, 
         Pool: userPool,
       };
 
@@ -86,7 +87,7 @@ export default {
           }
           if (result === "SUCCESS") {
             console.log("Usuario confirmado",this.username);
-            this.logUser(this.username);
+            this.signIn(this.username);
             this.$router.push("/");
           }
         }

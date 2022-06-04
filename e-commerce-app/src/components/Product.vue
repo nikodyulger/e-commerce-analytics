@@ -23,22 +23,15 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '../store/user';
-import { useCatalogStore } from '../store/catalog';
 
 export default {
   name: "Product",
   props: ["product"],
-  setup(){
-    const catalog = useCatalogStore();
-    return {
-      catalog
-    }
-  },
   computed: {
     ...mapState(useUserStore, ['isLogged']),
   },
   methods: {
-    ...mapActions(useCatalogStore, ['addProductToCart'])
+    ...mapActions(useUserStore, ['addProductToCart'])
   }
 };
 </script>

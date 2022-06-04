@@ -15,7 +15,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in cart" :key="product.id">
+            <tr v-for="product in user.cart" :key="product.id">
               <th class="align-middle">
                 {{product.title}}
               </th>
@@ -69,15 +69,15 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { useCatalogStore } from "../store/catalog";
+import { useUserStore } from "../store/user";
 
 export default {
   name: "CartTable",
   computed: {
-      ...mapState(useCatalogStore, ['cart', 'tax', 'cartSubtotal','cartTotal'])
+      ...mapState(useUserStore, ['user', 'tax', 'cartSubtotal','cartTotal'])
   },
   methods: {
-      ...mapActions(useCatalogStore, ['removeProduct'])
+      ...mapActions(useUserStore, ['removeProduct'])
   }
 };
 </script>

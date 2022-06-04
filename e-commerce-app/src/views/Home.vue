@@ -24,7 +24,7 @@ import API from "../services/API";
 
 import { NavBar, Footer, Product } from "@/components";
 import { mapWritableState } from 'pinia';
-import { useCatalogStore } from '../store/catalog';
+import { useUserStore } from '../store/user';
 
 export default {
   name: "Home",
@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapWritableState(useCatalogStore, ['catalog','cart'])
+    ...mapWritableState(useUserStore, ['catalog'])
   },
   mounted() {
     if (this.catalog.length === 0){

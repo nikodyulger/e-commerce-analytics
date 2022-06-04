@@ -16,22 +16,25 @@
     </div>
     <div class="container mb-3 mx-2">
       <div class="row">
-        <a role="button" class="btn btn-primary col-7"
-          ><i class="fa fa-shopping-cart"></i>&nbsp;Purchase</a
+        <b-button class="col-7" variant="primary" @click="purchase()"
+          ><i class="fa fa-shopping-cart"></i>&nbsp;Purchase</b-button
         >
-        <a role="button" class="btn btn-danger col-4" href="/">Cancel</a>
+        <b-link role="button" class="btn btn-danger col-4" :to="'/'">Cancel</b-link>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from "pinia";
-import { useCatalogStore } from "../store/catalog";
+import { mapState, mapActions } from "pinia";
+import { useUserStore } from "../store/user";
 
 export default {
   name: "CartSummary",
   computed: {
-    ...mapState(useCatalogStore, ['cartTotal'])
+    ...mapState(useUserStore, ['cartTotal'])
+  },
+  methods: {
+    ...mapActions(useUserStore, ['purchase'])
   }
 };
 </script>

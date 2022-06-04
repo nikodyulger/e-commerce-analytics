@@ -36,7 +36,12 @@
   </div>
 </template>
 <script>
+import { mapState } from 'pinia';
+import { useUserStore } from '../store/user';
 export default {
   name: "OrderList",
+  computed: {
+    ...mapState(useUserStore, ['user'])
+  }
 };
 </script>

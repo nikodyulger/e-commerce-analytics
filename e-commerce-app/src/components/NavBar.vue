@@ -5,8 +5,8 @@
       <b-navbar-toggle target="nav-collapse" right></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item :to="'/cart'">
-            <b-icon icon="cart"/>
+          <b-nav-item v-if="isLogged" :to="'/cart'">
+            <b-icon icon="cart" />
             Cart
           </b-nav-item>
 
@@ -23,7 +23,16 @@
             <b-dropdown-item :to="'/profile'" v-if="isLogged"
               >Profile</b-dropdown-item
             >
-            <b-dropdown-item v-if="isLogged" @click="signOut">Sign Out</b-dropdown-item>
+            <b-dropdown-item
+              v-if="isLogged"
+              @click="
+                () => {
+                  signOut();
+                  this.$router.push('/');
+                }
+              "
+              >Sign Out</b-dropdown-item
+            >
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -38,11 +47,11 @@ import { useUserStore } from "../store/user";
 export default {
   name: "NavBar",
   computed: {
-    ...mapState(useUserStore, ["isLogged"]),
+    ...mapState(useUserStore, ["user", "isLogged"]),
   },
   methods: {
-    ...mapActions(useUserStore, ['signOut'])
-  }
+    ...mapActions(useUserStore, ["signOut"]),
+  },
 };
 </script>
 

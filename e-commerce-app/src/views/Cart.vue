@@ -5,11 +5,11 @@
     <div class="container-fluid p-4">
       <div class="row">
         <div class="col-md-9">
-          <AlertCart v-if="cart.length === 0" />
+          <AlertCart v-if="user.cart.length === 0" />
           <CartTable v-else />
         </div>
         <div class="col-md-3">
-          <CartSummary v-if="cart.length !== 0" />
+          <CartSummary v-if="user.cart.length !== 0" />
         </div>
       </div>
       <br />
@@ -28,7 +28,7 @@ import {
   CartTable,
 } from "@/components";
 import { mapState } from "pinia";
-import { useCatalogStore } from "../store/catalog";
+import { useUserStore } from "../store/user";
 
 export default {
   name: "Cart",
@@ -40,7 +40,7 @@ export default {
     CartTable,
   },
   computed: {
-    ...mapState(useCatalogStore, ["cart"]),
+    ...mapState(useUserStore, ["user"]),
   },
 };
 </script>

@@ -4,7 +4,7 @@
     <br />
     <div class="container">
       <div class="col-xl-12 col-lg-10 col-md-10 col-12">
-        <ProfileInfo />
+        <ProfileInfo v-bind="user"/>
       </div>
     </div>
     <br />

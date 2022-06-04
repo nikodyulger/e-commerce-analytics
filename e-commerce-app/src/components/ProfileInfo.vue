@@ -8,16 +8,7 @@
           <h6 class="mb-0">Name</h6>
         </div>
         <div class="col-sm-9 text-secondary">
-          {{name}}
-        </div>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="col-sm-3">
-          <h6 class="mb-0">Surname</h6>
-        </div>
-        <div class="col-sm-9 text-secondary">
-          {{surname}}
+          {{ name }}
         </div>
       </div>
       <hr />
@@ -26,7 +17,7 @@
           <h6 class="mb-0">Birth</h6>
         </div>
         <div class="col-sm-9 text-secondary">
-          {{birthday | date}}
+          {{ birthdate | date }}
         </div>
       </div>
       <hr />
@@ -35,7 +26,7 @@
           <h6 class="mb-0">Address</h6>
         </div>
         <div class="col-sm-9 text-secondary">
-          {{address}}
+          {{ address }}
         </div>
       </div>
       <hr />
@@ -44,7 +35,7 @@
           <h6 class="mb-0">E-mail</h6>
         </div>
         <div class="col-sm-9 text-secondary">
-          {{email}}
+          {{ email }}
         </div>
       </div>
     </div>
@@ -53,6 +44,6 @@
 <script>
 export default {
   name: "ProfileInfo",
-  props: ["name", "surname", "birthday", "address", "email"]
+  props: ["name", "surname", "birthdate", "address", "email"],
 };
 </script>

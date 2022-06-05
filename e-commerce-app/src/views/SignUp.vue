@@ -84,6 +84,29 @@
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text"
+                        ><b-icon icon="phone"></b-icon
+                      ></span>
+                    </div>
+                    <input
+                      id="phoneNumber"
+                      v-model="authenticationData.PhoneNumber"
+                      type="text"
+                      class="form-control"
+                      placeholder="+34123456789"
+                      aria-label="phoneNumber"
+                      aria-describedby="basic-addon1"
+                      required
+                      autofocus
+                    />
+                    <div class="invalid-feedback">
+                      The name field cannot be empty
+                    </div>
+                  </div>
+                </div>
+                <div class="form-label-group mx-2 my-3">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
                         ><b-icon icon="person-circle"></b-icon
                       ></span>
                     </div>
@@ -204,6 +227,7 @@ export default {
         Name: "",
         BirthDate: "",
         Address: "",
+        PhoneNumber:"",
       },
     };
   },
@@ -245,6 +269,10 @@ export default {
           {
             Name: "address",
             Value: this.userAttributes.Address,
+          },
+          {
+            Name: "phone number",
+            Value: this.userAttributes.PhoneNumber,
           },
         ];
 

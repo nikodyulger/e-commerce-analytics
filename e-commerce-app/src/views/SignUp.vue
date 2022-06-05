@@ -89,7 +89,7 @@
                     </div>
                     <input
                       id="phoneNumber"
-                      v-model="authenticationData.PhoneNumber"
+                      v-model="userAttributes.PhoneNumber"
                       type="text"
                       class="form-control"
                       placeholder="+34123456789"
@@ -221,13 +221,13 @@ export default {
         Username: "",
         Email: "",
         Password: "",
-        PasswordConfirm: "",
+        PasswordConfirm: ""
       },
       userAttributes: {
         Name: "",
         BirthDate: "",
         Address: "",
-        PhoneNumber:"",
+        PhoneNumber: "",
       },
     };
   },
@@ -247,7 +247,7 @@ export default {
         alert("Passwords do not match! Try again!");
       } else {
         var poolData = {
-          UserPoolId: process.env.VUE_APP_USER_POOL_ID, 
+          UserPoolId: process.env.VUE_APP_USER_POOL_ID,
           ClientId: process.env.VUE_APP_CLIENT_ID,
         };
 
@@ -257,6 +257,7 @@ export default {
           Name: "email",
           Value: this.authenticationData.Email,
         };
+
         var attributeList = [
           {
             Name: "name",
@@ -271,7 +272,7 @@ export default {
             Value: this.userAttributes.Address,
           },
           {
-            Name: "phone number",
+            Name: "phone_number",
             Value: this.userAttributes.PhoneNumber,
           },
         ];

@@ -23,6 +23,15 @@
       <hr />
       <div class="row">
         <div class="col-sm-3">
+          <h6 class="mb-0">Phone</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">
+          {{ phone }}
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-sm-3">
           <h6 class="mb-0">Address</h6>
         </div>
         <div class="col-sm-9 text-secondary">
@@ -44,6 +53,6 @@
 <script>
 export default {
   name: "ProfileInfo",
-  props: ["name", "surname", "birthdate", "address", "email"],
+  props: ["name", "surname", "birthdate", "phone", "address", "email"],
 };
 </script>
